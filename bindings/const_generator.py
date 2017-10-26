@@ -32,7 +32,7 @@ template = {
             ]
         },
     'rust': {
-            'header': "// For Keystone Engine. AUTO-GENERATED FILE, DO NOT EDIT [%s_const.rs]\nextern crate libc;\n",
+            'header': "// For Keystone Engine. AUTO-GENERATED FILE, DO NOT EDIT [%s_const.rs]\n",
             'footer': "",
             # prefixes for constant filenames of all archs - case sensitive
             'arm.h': 'keystone',
