@@ -58,7 +58,7 @@ template = {
                     'pre': '\n' +
                             'bitflags! {{\n' +
                             '#[repr(C)]\n' +
-                            '    pub flags Mode: u32 {{\n',
+                            '    pub struct Mode: u32 {{\n',
                     'line_format': '        const {0} = {1},\n',
                     'fn': (lambda x: x),
                     'post': '    }\n}',
@@ -101,7 +101,7 @@ template = {
                     'regex': r'OPT_([A-Z]+\_)+[A-Z]+',
                     'pre': 'bitflags! {{\n'
                             '#[repr(C)]\n' +
-                            '    pub flags OptionValue : libc::size_t {{\n',
+                            '    pub struct OptionValue: libc::size_t {{\n',
                     'line_format': '        const {0} = {1},\n',
                     'fn': (lambda x: x),
                     'post': '    }\n}\n',
@@ -110,7 +110,7 @@ template = {
                     'regex': r'ERR_.*',
                     'pre': 'bitflags! {{\n' +
                             '#[repr(C)]\n' +
-                            '    pub flags Error : u32 {{\n',
+                            '    pub struct Error: u32 {{\n',
                     'line_format': '        const {0} = {1},\n',
                     'fn': (lambda x: x),
                     'post': '    }\n}',
