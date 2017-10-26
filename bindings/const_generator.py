@@ -32,7 +32,7 @@ template = {
             ]
         },
     'rust': {
-            'header': "// For Keystone Engine. AUTO-GENERATED FILE, DO NOT EDIT [%s_const.rs]\n",
+            'header': "// For Keystone Engine. AUTO-GENERATED FILE, DO NOT EDIT [%s_const.rs]\nuse libc;\n",
             'footer': "",
             # prefixes for constant filenames of all archs - case sensitive
             'arm.h': 'keystone',
@@ -59,7 +59,7 @@ template = {
                             'bitflags! {{\n' +
                             '#[repr(C)]\n' +
                             '    pub struct Mode: u32 {{\n',
-                    'line_format': '        const {0} = {1},\n',
+                    'line_format': '        const {0} = {1};\n',
                     'fn': (lambda x: x),
                     'post': '    }\n}',
                 },
@@ -102,7 +102,7 @@ template = {
                     'pre': 'bitflags! {{\n'
                             '#[repr(C)]\n' +
                             '    pub struct OptionValue: libc::size_t {{\n',
-                    'line_format': '        const {0} = {1},\n',
+                    'line_format': '        const {0} = {1};\n',
                     'fn': (lambda x: x),
                     'post': '    }\n}\n',
                 },
@@ -111,7 +111,7 @@ template = {
                     'pre': 'bitflags! {{\n' +
                             '#[repr(C)]\n' +
                             '    pub struct Error: u32 {{\n',
-                    'line_format': '        const {0} = {1},\n',
+                    'line_format': '        const {0} = {1};\n',
                     'fn': (lambda x: x),
                     'post': '    }\n}',
                 },
