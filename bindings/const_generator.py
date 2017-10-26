@@ -32,7 +32,7 @@ template = {
             ]
         },
     'rust': {
-            'header': "// For Keystone Engine. AUTO-GENERATED FILE, DO NOT EDIT [%s_const.rs]\nextern crate libc;\n\n",
+            'header': "// For Keystone Engine. AUTO-GENERATED FILE, DO NOT EDIT [%s_const.rs]\nextern crate libc;\n",
             'footer': "",
             # prefixes for constant filenames of all archs - case sensitive
             'arm.h': 'keystone',
@@ -46,65 +46,74 @@ template = {
             'keystone.h': 'keystone',
             'comment_open': '/*',
             'comment_close': '*/',
-            'out_file': './rust/src/%s_const.rs',
+            'out_file': './rust/libkeystone-sys/src/%s_const.rs',
             'rules': [
                 {
                     'regex': r'(API|ARCH)_.*',
                     'pre': '\n',
-                    'line_format': 'pub const KS_{0} : u32 = {1};\n',
+                    'line_format': 'pub const KS_{0}: u32 = {1};\n',
                     'fn': (lambda x: x),
-                    'post': '\n',
                 },
                 {   'regex': r'MODE_.*',
-                    'pre': 'bitflags! {{\n\tpub flags Mode : u32 {{\n',
-                    'line_format': '\t\tconst {0} = {1},\n',
+                    'pre': '\n' +
+                            'bitflags! {{\n' +
+                            '#[repr(C)]\n' +
+                            '    pub flags Mode: u32 {{\n',
+                    'line_format': '        const {0} = {1},\n',
                     'fn': (lambda x: x),
-                    'post': '\t}\n}\n',
+                    'post': '    }\n}',
                 },
                 {
                     'regex': r'ARCH_.*',
-                    'pre': '#[derive(Debug, PartialEq, Clone, Copy)]\n' + 
+                    'pre': '\n' +
+                            '#[repr(C)]\n' +
+                            '#[derive(Debug, PartialEq, Clone, Copy)]\n' +
                             'pub enum Arch {{\n',
-                    'line_format': '\t{0},\n',
+                    'line_format': '    {0},\n',
                     'fn': (lambda x: '_'.join(x.split('_')[1:])),
-                    'post': '}\n\n',
+                    'post': '}\n',
                 },
                 {   'regex': r'ARCH_.*',
-                    'pre': 'impl Arch {{\n\t#[inline]\n\tpub fn val(&self) -> u32 {{\n\t\tmatch *self {{\n',
-                    'line_format': '\t\t\tArch::{0} => {1},\n',
+                    'pre': 'impl Arch {{\n    #[inline]\n    pub fn val(&self) -> u32 {{\n        match *self {{\n',
+                    'line_format': '            Arch::{0} => {1},\n',
                     'fn': (lambda x: '_'.join(x.split('_')[1:])),
-                    'post': '\t\t}\n\t}\n}\n',
+                    'post': '        }\n    }\n}\n',
                 },
                 {
                     'regex': r'OPT_([A-Z]+)$',
-                    'pre': '#[derive(Debug, PartialEq, Clone, Copy)]\n' + 
+                    'pre': '#[repr(C)]\n' +
+                            '#[derive(Debug, PartialEq, Clone, Copy)]\n' +
                             'pub enum OptionType {{\n',
-                    'line_format': '\t{0},\n',
+                    'line_format': '    {0},\n',
                     'fn': (lambda x: '_'.join(x.split('_')[1:])),
-                    'post': '\tMAX,\n' +
+                    'post': '    MAX,\n' +
                             '}\n',
                 },
-                {   
+                {
                     'regex': r'OPT_([A-Z]+)$',
-                    'pre': 'impl OptionType {{\n\t#[inline]\n\tpub fn val(&self) -> u32 {{\n\t\tmatch *self {{\n',
-                    'line_format': '\t\t\tOptionType::{0} => {1},\n',
+                    'pre': 'impl OptionType {{\n    #[inline]\n    pub fn val(&self) -> u32 {{\n        match *self {{\n',
+                    'line_format': '            OptionType::{0} => {1},\n',
                     'fn': (lambda x: '_'.join(x.split('_')[1:])),
-                    'post': '\t\t\tOptionType::MAX => 99\n' +
-                            '\t\t}\n\t}\n}\n',
+                    'post': '            OptionType::MAX => 99\n' +
+                            '        }\n    }\n}\n',
                 },
                 {
                     'regex': r'OPT_([A-Z]+\_)+[A-Z]+',
-                    'pre': 'bitflags! {{\n\tpub flags OptionValue : libc::size_t {{\n',
-                    'line_format': '\t\tconst {0} = {1},\n',
+                    'pre': 'bitflags! {{\n'
+                            '#[repr(C)]\n' +
+                            '    pub flags OptionValue : libc::size_t {{\n',
+                    'line_format': '        const {0} = {1},\n',
                     'fn': (lambda x: x),
-                    'post': '\t}\n}\n',
+                    'post': '    }\n}\n',
                 },
                 {
                     'regex': r'ERR_.*',
-                    'pre': 'bitflags! {{\n\tpub flags Error : u32 {{\n',
-                    'line_format': '\t\tconst {0} = {1},\n',
+                    'pre': 'bitflags! {{\n' +
+                            '#[repr(C)]\n' +
+                            '    pub flags Error : u32 {{\n',
+                    'line_format': '        const {0} = {1},\n',
                     'fn': (lambda x: x),
-                    'post': '\t}\n}\n',
+                    'post': '    }\n}',
                 },
             ],
     },
