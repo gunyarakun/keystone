@@ -1,0 +1,21 @@
+[package]
+name = "libkeystone-sys"
+version = "0.9.1"
+authors = ["Sébastien Duquette <ekse.0x@gmail.com>",
+           "Tasuku SUENAGA a.k.a. gunyarakun <tasuku-s-github@titech.ac>"]
+description = "Rust bindings for the keystone assembler"
+repository = "https://github.com/keystone-engine/keystone"
+documentation = "https://docs.rs/keystone/"
+license = "GPL-2.0"
+build = "build.rs"
+links = "keystone"
+
+[lib]
+name = "libkeystone_sys"
+
+[build-dependencies]
+build-helper = "0.1"
+
+[dependencies]
+bitflags = "1.0"
+libc = "0.2"
