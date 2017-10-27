@@ -10,8 +10,8 @@ fn main() {
     let out_dir = env::var("OUT_DIR").unwrap();
 
     let make_args = match os_type::current_platform().os_type {
-        os_type::OSType::OSX => ["macos-no-universal"],
-        _ => [""],
+        os_type::OSType::OSX => ["macos-no-universal", "lib_only"],
+        _ => ["lib_only"],
     };
 
     let _ = Command::new("mkdir build")
