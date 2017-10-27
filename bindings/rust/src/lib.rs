@@ -22,17 +22,9 @@
 extern crate bitflags;
 extern crate libc;
 
-pub mod ffi;
-// pub mod enums;
+extern crate libkeystone_sys as ffi;
+
 pub mod keystone_const;
-// pub mod arm64_const;
-// pub mod arm_const;
-// pub mod hexagon_const;
-// pub mod mips_const;
-// pub mod ppc_const;
-// pub mod sparc_const;
-// pub mod systemz_const;
-// pub mod x86_const;
 
 use std::ffi::CStr;
 use std::ffi::CString;
