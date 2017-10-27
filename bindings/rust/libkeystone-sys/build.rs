@@ -2,38 +2,55 @@ extern crate os_type;
 extern crate build_helper;
 
 use std::env;
+use std::path::PathBuf;
 use std::process::Command;
 
-use build_helper::rustc::{link_search, link_lib};
-
 fn main() {
-    let out_dir = env::var("OUT_DIR").unwrap();
+    let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
 
-    let mut make_args = vec!["lib_only"];
-    if let os_type::OSType::OSX = os_type::current_platform().os_type {
-        make_args.push("macos-no-universal");
-    }
-
-    let _ = Command::new("mkdir build")
-        .current_dir("../../..")
-        .arg("build")
-        .status();
-
-    let _ = Command::new("./make-lib.sh")
-        .current_dir("../../../build")
-        .args(&make_args)
-        .status();
-
-    let keystone = "llvm/lib/libkeystone.a";
-    let _ = Command::new("cp")
-        .current_dir("../../../build")
-        .arg(&keystone)
-        .arg(&out_dir)
-        .status();
-
-    link_search(
-        Some(build_helper::SearchKind::Native),
-        build_helper::out_dir(),
+    run(
+        Command::new("mkdir")
+            .current_dir("../../..")
+            .arg("-p")
+            .arg("build"),
     );
-    link_lib(Some(build_helper::LibKind::Static), "keystone");
+
+    run(Command::new("cmake").current_dir("../../../build").args(
+        &[
+            &format!("-DCMAKE_INSTALL_PREFIX={}", out_dir.display()),
+            "-DCMAKE_BUILD_TYPE=Release",
+            "-DBUILD_LIBS_ONLY=1",
+            "-DCMAKE_SHARED_LIBS=OFF",
+            "-DCMAKE_OSX_ARCHITECTURES=",
+            "-DLLVM_TARGET_ARCH=host",
+            "-G",
+            "Unix Makefiles",
+            "..",
+        ],
+    ));
+
+    run(Command::new("make").current_dir("../../../build").arg(
+        "install",
+    ));
+
+    println!("cargo:rustc-link-search=native={}/lib", out_dir.display());
+    println!("cargo:rustc-link-lib=static=keystone");
+}
+
+fn run(cmd: &mut Command) {
+    println!("run: {:?}", cmd);
+    let status = match cmd.status() {
+        Ok(s) => s,
+        Err(ref e) => fail(&format!("failed to execute command: {}", e)),
+    };
+    if !status.success() {
+        fail(&format!(
+            "command did not execute successfully, got: {}",
+            status
+        ));
+    }
+}
+
+fn fail(s: &str) -> ! {
+    panic!("\n{}\n\nbuild script failed, must exit now", s);
 }
