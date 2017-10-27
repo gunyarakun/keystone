@@ -20,7 +20,7 @@ fn main() {
             &format!("-DCMAKE_INSTALL_PREFIX={}", out_dir.display()),
             "-DCMAKE_BUILD_TYPE=Release",
             "-DBUILD_LIBS_ONLY=1",
-            "-DCMAKE_SHARED_LIBS=ON",
+            "-DCMAKE_SHARED_LIBS=OFF",
             "-DCMAKE_OSX_ARCHITECTURES=",
             "-DLLVM_TARGET_ARCH=host",
             "-G",
@@ -34,7 +34,7 @@ fn main() {
     ));
 
     println!("cargo:rustc-link-search=native={}/lib", out_dir.display());
-    println!("cargo:rustc-link-lib=static=keystone");
+    println!("cargo:rustc-link-lib=keystone");
 }
 
 fn run(cmd: &mut Command) {
