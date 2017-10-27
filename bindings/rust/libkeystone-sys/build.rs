@@ -20,7 +20,7 @@ fn main() {
             &format!("-DCMAKE_INSTALL_PREFIX={}", out_dir.display()),
             "-DCMAKE_BUILD_TYPE=Release",
             "-DBUILD_LIBS_ONLY=1",
-            "-DCMAKE_SHARED_LIBS=OFF",
+            "-DCMAKE_SHARED_LIBS=ON",
             "-DCMAKE_OSX_ARCHITECTURES=",
             "-DLLVM_TARGET_ARCH=host",
             "-G",
