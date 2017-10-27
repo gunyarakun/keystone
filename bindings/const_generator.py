@@ -32,7 +32,7 @@ template = {
             ]
         },
     'rust': {
-            'header': "// For Keystone Engine. AUTO-GENERATED FILE, DO NOT EDIT [%s_const.rs]\nuse libc;\n",
+            'header': "#![allow(non_camel_case_types)]\n// For Keystone Engine. AUTO-GENERATED FILE, DO NOT EDIT [%s_const.rs]\nuse libc;\n",
             'footer': "",
             # prefixes for constant filenames of all archs - case sensitive
             'arm.h': 'keystone',
@@ -80,25 +80,23 @@ template = {
                     'post': '        }\n    }\n}\n',
                 },
                 {
-                    'regex': r'OPT_([A-Z]+)$',
+                    'regex': r'(OPT_([A-Z]+)|OPT_SYM_RESOLVER)$',
                     'pre': '#[repr(C)]\n' +
                             '#[derive(Debug, PartialEq, Clone, Copy)]\n' +
                             'pub enum OptionType {{\n',
                     'line_format': '    {0},\n',
                     'fn': (lambda x: '_'.join(x.split('_')[1:])),
-                    'post': '    MAX,\n' +
-                            '}\n',
+                    'post': '}\n',
                 },
                 {
-                    'regex': r'OPT_([A-Z]+)$',
+                    'regex': r'(OPT_([A-Z]+)|OPT_SYM_RESOLVER)$',
                     'pre': 'impl OptionType {{\n    #[inline]\n    pub fn val(&self) -> u32 {{\n        match *self {{\n',
                     'line_format': '            OptionType::{0} => {1},\n',
                     'fn': (lambda x: '_'.join(x.split('_')[1:])),
-                    'post': '            OptionType::MAX => 99\n' +
-                            '        }\n    }\n}\n',
+                    'post': '        }\n    }\n}\n',
                 },
                 {
-                    'regex': r'OPT_([A-Z]+\_)+[A-Z]+',
+                    'regex': r'OPT_(?!SYM)([A-Z]+\_)+[A-Z]+',
                     'pre': 'bitflags! {{\n'
                             '#[repr(C)]\n' +
                             '    pub struct OptionValue: libc::size_t {{\n',
