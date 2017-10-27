@@ -1,7 +1,8 @@
 [package]
 name = "keystone"
 version = "0.10.0"
-authors = ["Remco Verhoef <remco.verhoef@dutchcoders.io>"]
+authors = ["Remco Verhoef <remco.verhoef@dutchcoders.io>",
+           "Tasuku SUENAGA a.k.a. gunyarakun <tasuku-s-github@titech.ac>"]
 description = "Rust bindings for the keystone-engine"
 license = "GPL-2.0"
 readme = "README.md"
