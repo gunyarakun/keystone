@@ -1,6 +1,6 @@
 [package]
 name = "keystone"
-version = "0.9.0"
+version = "0.10.0"
 authors = ["Remco Verhoef <remco.verhoef@dutchcoders.io>"]
 description = "Rust bindings for the keystone-engine"
 license = "GPL-2.0"
@@ -10,4 +10,4 @@ include = ["src/*", "tests/*", "Cargo.toml", "COPYING", "README.md"]
 [dependencies]
 bitflags = "0.8"
 libc = "0.2"
-libkeystone-sys = { path = "libkeystone-sys", version = "0.9.0" }
+libkeystone-sys = { path = "libkeystone-sys", version = "0.10.0" }
