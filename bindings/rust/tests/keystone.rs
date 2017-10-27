@@ -1,6 +1,6 @@
 extern crate keystone;
 
-use keystone::{Keystone, Arch, OptionType};
+use keystone::{Keystone, Arch, Error, Mode, OptionType, OptionValue};
 
 #[test]
 fn version() {
@@ -18,11 +18,11 @@ fn arch_supported() {
 fn asm() {
     let asm = String::from("mov ah, 0x80\n nop\n mov al, 0x81\n");
 
-    let engine = Keystone::new(Arch::X86, keystone::MODE_LITTLE_ENDIAN | keystone::MODE_32)
+    let engine = Keystone::new(Arch::X86, Mode::LITTLE_ENDIAN | Mode::MODE_32)
         .expect("Could not initialize Keystone engine");
 
     engine
-        .option(OptionType::SYNTAX, keystone::OPT_SYNTAX_NASM)
+        .option(OptionType::SYNTAX, OptionValue::SYNTAX_NASM)
         .expect("Could not set option to nasm syntax");
 
     let result = engine.asm(asm, 0).expect("Could not assemble");
@@ -36,12 +36,12 @@ fn invalid_asm() {
     let asm = String::from("invalid asm");
 
     let engine =
-        Keystone::new(Arch::X86, keystone::MODE_32).expect("Could not initialize Keystone engine");
+        Keystone::new(Arch::X86, Mode::MODE_32).expect("Could not initialize Keystone engine");
 
     let result = engine.asm(asm, 0);
     let err = result.unwrap_err();
 
-    assert_eq!(err, keystone::ERR_ASM_MNEMONICFAIL);
+    assert_eq!(err, Error::ASM_MNEMONICFAIL);
     assert_eq!(err.msg(), "Invalid mnemonic (KS_ERR_ASM_MNEMONICFAIL)");
     assert_eq!(
         format!("{}", err),
