@@ -21,28 +21,30 @@ fn asm() {
     let engine = Keystone::new(Arch::X86, keystone::MODE_LITTLE_ENDIAN | keystone::MODE_32)
         .expect("Could not initialize Keystone engine");
 
-    engine.option(OptionType::SYNTAX, keystone::OPT_SYNTAX_NASM)
+    engine
+        .option(OptionType::SYNTAX, keystone::OPT_SYNTAX_NASM)
         .expect("Could not set option to nasm syntax");
 
-    let result = engine.asm(asm, 0)
-        .expect("Could not assemble");
+    let result = engine.asm(asm, 0).expect("Could not assemble");
 
     print!("{0:?}", result.bytes);
-    assert_eq!(result.bytes,[0xb4,0x80, 0x90, 0xb0, 0x81]);
+    assert_eq!(result.bytes, [0xb4, 0x80, 0x90, 0xb0, 0x81]);
 }
 
 #[test]
 fn invalid_asm() {
     let asm = String::from("invalid asm");
 
-    let engine = Keystone::new(Arch::X86, keystone::MODE_32)
-        .expect("Could not initialize Keystone engine");
+    let engine =
+        Keystone::new(Arch::X86, keystone::MODE_32).expect("Could not initialize Keystone engine");
 
     let result = engine.asm(asm, 0);
     let err = result.unwrap_err();
 
     assert_eq!(err, keystone::ERR_ASM_MNEMONICFAIL);
     assert_eq!(err.msg(), "Invalid mnemonic (KS_ERR_ASM_MNEMONICFAIL)");
-    assert_eq!(format!("{}", err), "Invalid mnemonic (KS_ERR_ASM_MNEMONICFAIL)");
+    assert_eq!(
+        format!("{}", err),
+        "Invalid mnemonic (KS_ERR_ASM_MNEMONICFAIL)"
+    );
 }
-

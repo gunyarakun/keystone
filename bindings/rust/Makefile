@@ -1,11 +1,5 @@
 # Rust binding for Keystone engine. Remco Verhoef <remco@honeytrap.io>
 
-ifndef BUILDDIR
-OBJDIR = ./build
-else
-OBJDIR = $(abspath $(BUILDDIR))/obj/bindings/rust
-endif
-
 .PHONY: gen_const install clean check
 
 gen_const:
@@ -16,8 +10,7 @@ install:
 	cargo build
 
 clean:
-	rm -rf target/
+	rm -rf target/ libkeystone-sys/target/
 
 check:
 	cargo test
-

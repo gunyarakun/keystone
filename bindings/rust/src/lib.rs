@@ -94,7 +94,11 @@ pub fn arch_supported(arch: Arch) -> bool {
 
 /// Return a string describing given error code.
 pub fn error_msg(error: Error) -> String {
-    unsafe { CStr::from_ptr(ffi::ks_strerror(error.bits())).to_string_lossy().into_owned() }
+    unsafe {
+        CStr::from_ptr(ffi::ks_strerror(error.bits()))
+            .to_string_lossy()
+            .into_owned()
+    }
 }
 
 pub struct Keystone {
@@ -123,11 +127,7 @@ impl Keystone {
     /// Report the last error number when some API function fail.
     pub fn error(&self) -> Result<(), Error> {
         let err = Error::from_bits_truncate(unsafe { ffi::ks_errno(self.handle) });
-        if err == ERR_OK {
-            Ok(())
-        } else {
-            Err(err)
-        }
+        if err == ERR_OK { Ok(()) } else { Err(err) }
     }
 
     /// Set option for Keystone engine at runtime
@@ -135,11 +135,7 @@ impl Keystone {
         let err = Error::from_bits_truncate(unsafe {
             ffi::ks_option(self.handle, type_.val(), value.bits())
         });
-        if err == ERR_OK {
-            Ok(())
-        } else {
-            Err(err)
-        }
+        if err == ERR_OK { Ok(()) } else { Err(err) }
     }
 
     /// Assemble a string given its the buffer, size, start address and number
@@ -155,12 +151,14 @@ impl Keystone {
         let mut ptr: *mut libc::c_uchar = std::ptr::null_mut();
 
         let err = Error::from_bits_truncate(unsafe {
-            ffi::ks_asm(self.handle,
-                        s.as_ptr(),
-                        address,
-                        &mut ptr,
-                        &mut size,
-                        &mut stat_count)
+            ffi::ks_asm(
+                self.handle,
+                s.as_ptr(),
+                address,
+                &mut ptr,
+                &mut size,
+                &mut stat_count,
+            )
         });
 
         if err == ERR_OK {
