@@ -49,9 +49,9 @@ template = {
             'out_file': './rust/libkeystone-sys/src/%s_const.rs',
             'rules': [
                 {
-                    'regex': r'(API|ARCH)_.*',
+                    'regex': r'(API)_.*',
                     'pre': '\n',
-                    'line_format': 'pub const KS_{0}: u32 = {1};\n',
+                    'line_format': 'pub const {0}: u32 = {1};\n',
                     'fn': (lambda x: x),
                 },
                 {   'regex': r'MODE_.*',
@@ -60,7 +60,7 @@ template = {
                             '#[repr(C)]\n' +
                             '    pub struct Mode: u32 {{\n',
                     'line_format': '        const {0} = {1};\n',
-                    'fn': (lambda x: x),
+                    'fn': (lambda x: '_'.join(x.split('_')[1:]) if not re.match(r'MODE_\d+', x) else x),
                     'post': '    }\n}',
                 },
                 {
@@ -69,31 +69,18 @@ template = {
                             '#[repr(C)]\n' +
                             '#[derive(Debug, PartialEq, Clone, Copy)]\n' +
                             'pub enum Arch {{\n',
-                    'line_format': '    {0},\n',
+                    'line_format': '    {0} = {1},\n',
                     'fn': (lambda x: '_'.join(x.split('_')[1:])),
                     'post': '}\n',
-                },
-                {   'regex': r'ARCH_.*',
-                    'pre': 'impl Arch {{\n    #[inline]\n    pub fn val(&self) -> u32 {{\n        match *self {{\n',
-                    'line_format': '            Arch::{0} => {1},\n',
-                    'fn': (lambda x: '_'.join(x.split('_')[1:])),
-                    'post': '        }\n    }\n}\n',
                 },
                 {
                     'regex': r'(OPT_([A-Z]+)|OPT_SYM_RESOLVER)$',
                     'pre': '#[repr(C)]\n' +
                             '#[derive(Debug, PartialEq, Clone, Copy)]\n' +
                             'pub enum OptionType {{\n',
-                    'line_format': '    {0},\n',
+                    'line_format': '    {0} = {1},\n',
                     'fn': (lambda x: '_'.join(x.split('_')[1:])),
                     'post': '}\n',
-                },
-                {
-                    'regex': r'(OPT_([A-Z]+)|OPT_SYM_RESOLVER)$',
-                    'pre': 'impl OptionType {{\n    #[inline]\n    pub fn val(&self) -> u32 {{\n        match *self {{\n',
-                    'line_format': '            OptionType::{0} => {1},\n',
-                    'fn': (lambda x: '_'.join(x.split('_')[1:])),
-                    'post': '        }\n    }\n}\n',
                 },
                 {
                     'regex': r'OPT_(?!SYM)([A-Z]+\_)+[A-Z]+',
@@ -101,16 +88,16 @@ template = {
                             '#[repr(C)]\n' +
                             '    pub struct OptionValue: libc::size_t {{\n',
                     'line_format': '        const {0} = {1};\n',
-                    'fn': (lambda x: x),
+                    'fn': (lambda x: '_'.join(x.split('_')[1:])),
                     'post': '    }\n}\n',
                 },
                 {
-                    'regex': r'ERR_.*',
+                    'regex': r'ERR_(.*)',
                     'pre': 'bitflags! {{\n' +
                             '#[repr(C)]\n' +
                             '    pub struct Error: u32 {{\n',
                     'line_format': '        const {0} = {1};\n',
-                    'fn': (lambda x: x),
+                    'fn': (lambda x: '_'.join(x.split('_')[1:])),
                     'post': '    }\n}',
                 },
             ],
@@ -133,7 +120,7 @@ template = {
             'out_file': './go/keystone/%s_const.go',
             'rules': [
                 {
-                    'regex': r'(API)_.*',
+                    'regex': r'API_.*',
                     'pre': 'const (\n',
                     'line_format': '\t{0} = {1}\n',
                     'fn': (lambda x: x),
