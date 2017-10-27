@@ -9,10 +9,10 @@ use build_helper::rustc::{link_search, link_lib};
 fn main() {
     let out_dir = env::var("OUT_DIR").unwrap();
 
-    let make_args = match os_type::current_platform().os_type {
-        os_type::OSType::OSX => ["macos-no-universal", "lib_only"],
-        _ => ["lib_only"],
-    };
+    let mut make_args = vec!["lib_only"];
+    if let os_type::OSType::OSX = os_type::current_platform().os_type {
+        make_args.push("macos-no-universal");
+    }
 
     let _ = Command::new("mkdir build")
         .current_dir("../../..")
