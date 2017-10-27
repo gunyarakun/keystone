@@ -1,8 +1,10 @@
 [package]
 name = "libkeystone-sys"
 version = "0.10.0"
-authors = ["Remco Verhoef <remco.verhoef@dutchcoders.io>",
-           "Tasuku SUENAGA a.k.a. gunyarakun <tasuku-s-github@titech.ac>"]
+authors = [
+  "Remco Verhoef <remco.verhoef@dutchcoders.io>",
+  "Tasuku SUENAGA a.k.a. gunyarakun <tasuku-s-github@titech.ac>"
+]
 description = "Rust bindings for the keystone assembler"
 repository = "https://github.com/keystone-engine/keystone"
 documentation = "https://docs.rs/keystone/"
