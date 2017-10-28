@@ -1,5 +1,5 @@
 [package]
-name = "libkeystone-sys"
+name = "keystone-sys"
 version = "0.10.0"
 authors = [
   "Remco Verhoef <remco.verhoef@dutchcoders.io>",
@@ -11,9 +11,6 @@ documentation = "https://docs.rs/keystone/"
 license = "GPL-2.0"
 build = "build.rs"
 links = "keystone"
-
-[lib]
-name = "libkeystone_sys"
 
 [build-dependencies]
 build-helper = "0.1"

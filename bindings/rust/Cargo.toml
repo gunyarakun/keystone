@@ -16,4 +16,4 @@ include = [
 [dependencies]
 bitflags = "0.8"
 libc = "0.2"
-libkeystone-sys = { path = "libkeystone-sys", version = "0.10.0" }
+keystone-sys = { path = "keystone-sys", version = "0.10.0" }
