@@ -46,7 +46,7 @@ template = {
             'keystone.h': 'keystone',
             'comment_open': '/*',
             'comment_close': '*/',
-            'out_file': './rust/libkeystone-sys/src/%s_const.rs',
+            'out_file': './rust/keystone-sys/src/%s_const.rs',
             'rules': [
                 {
                     'regex': r'(API)_.*',
