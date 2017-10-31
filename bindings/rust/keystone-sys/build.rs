@@ -8,12 +8,15 @@ use std::process::Command;
 
 fn build_with_cmake() {
     let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
-    let build_dir = out_dir.join("build");
-    let cmake_dir = fs::canonicalize("../../..").unwrap();
+    let cmake_dir = fs::canonicalize("keystone").unwrap();
+    let build_dir = cmake_dir.join("build");
 
-    run(Command::new("mkdir").current_dir(&out_dir).arg("-p").arg(
-        "build",
-    ));
+    run(
+        Command::new("mkdir")
+            .current_dir(&cmake_dir)
+            .arg("-p")
+            .arg("build"),
+    );
 
     run(Command::new("cmake").current_dir(&build_dir).args(
         &[

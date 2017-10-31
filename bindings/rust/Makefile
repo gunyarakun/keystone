@@ -6,11 +6,16 @@ gen_const:
 	cd .. && python const_generator.py rust
 	cargo fmt
 
-install:
-	cargo build
+build:
+	rsync -a ../.. keystone-sys/keystone --exclude ../../bindings --filter ":- ../../.gitignore"
+	cargo build -vv
+
+package: build
+	cd keystone-sys && cargo package
+	cargo package
 
 clean:
-	rm -rf target/ keystone-sys/target/
+	rm -rf target/ keystone-sys/target/ keystone-sys/keystone/
 
 check:
 	cargo test
