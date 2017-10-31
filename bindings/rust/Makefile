@@ -10,7 +10,7 @@ install:
 	cargo build
 
 clean:
-	rm -rf target/ libkeystone-sys/target/
+	rm -rf target/ keystone-sys/target/
 
 check:
 	cargo test

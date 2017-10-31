@@ -38,10 +38,7 @@ fn build_with_cmake() {
 fn main() {
     if cfg!(feature = "use_system_keystone") {
         #[cfg(feature = "use_system_keystone")]
-        {
-            pkg_config::find_library("keystone").expect("Could not find system keystone");
-            println("cargo:rustc-link-lib=dylib=keystone");
-        }
+        pkg_config::find_library("keystone").expect("Could not find system keystone");
     } else {
         build_with_cmake();
     }

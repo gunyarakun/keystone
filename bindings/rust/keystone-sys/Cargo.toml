@@ -10,7 +10,6 @@ repository = "https://github.com/keystone-engine/keystone"
 documentation = "https://docs.rs/keystone/"
 license = "GPL-2.0"
 build = "build.rs"
-links = "keystone"
 
 [build-dependencies]
 build-helper = "0.1"

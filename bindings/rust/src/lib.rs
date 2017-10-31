@@ -18,7 +18,7 @@
 
 #![doc(html_root_url="https://keystone/doc/here/v1")]
 
-extern crate libkeystone_sys as ffi;
+extern crate keystone_sys as ffi;
 extern crate libc;
 
 use std::fmt;

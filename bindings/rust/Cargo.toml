@@ -10,10 +10,16 @@ license = "GPL-2.0"
 readme = "README.md"
 include = [
   "src/*", "tests/*", "Cargo.toml", "COPYING", "README.md",
-  "libkeystone-sys/*"
+  "keystone-sys/*"
 ]
 
 [dependencies]
 bitflags = "0.8"
 libc = "0.2"
 keystone-sys = { path = "keystone-sys", version = "0.10.0" }
+
+[features]
+default = []
+
+use_system_keystone = ["keystone-sys/use_system_keystone"]
+build_keystone_cmake = ["keystone-sys/build_keystone_cmake"]
