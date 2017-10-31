@@ -20,6 +20,24 @@ fn main() {
 }
 ```
 
+## Installation
+Add a dependency line into `Cargo.toml`.
+
+```
+[dependencies]
+keystone = "0.10.0"
+```
+
+This package attempts to build keystone. That requires cmake, c/c++ compiler and git.
+
+If you want to use keystone already installed in the system, specify `use_system_keystone` feature on `Cargo.toml`.
+
+```
+[dependencies.keystone]
+version = "0.10.0"
+features = ["use_system_keystone"]
+```
+
 ## Testing
 ```
 cargo test
@@ -27,6 +45,7 @@ cargo test
 
 ## Contributors
 - Remco Verhoef (@remco_verhoef)
+- Tasuku SUENAGA a.k.a. gunyarakun (@tasukuchan)
 
 Special thanks to:
 - Sébastien Duquette (@ekse) for his [unicorn-rs](https://github.com/ekse/unicorn-rs) binding
