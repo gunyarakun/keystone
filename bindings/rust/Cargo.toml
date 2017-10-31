@@ -1,6 +1,6 @@
 [package]
 name = "keystone"
-version = "0.10.0"
+version = "0.9.0"
 authors = [
   "Remco Verhoef <remco.verhoef@dutchcoders.io>",
   "Tasuku SUENAGA a.k.a. gunyarakun <tasuku-s-github@titech.ac>"
@@ -16,7 +16,7 @@ include = [
 [dependencies]
 bitflags = "0.8"
 libc = "0.2"
-keystone-sys = { path = "keystone-sys", version = "0.10.0" }
+keystone-sys = { path = "keystone-sys", version = "0.9.0" }
 
 [features]
 default = []
