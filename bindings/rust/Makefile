@@ -7,7 +7,7 @@ gen_const:
 	cargo fmt
 
 build:
-	rsync -a ../.. keystone-sys/keystone --exclude ../../bindings --filter ":- ../../.gitignore"
+	rsync -a ../.. keystone-sys/keystone --exclude bindings --filter ":- ../../.gitignore"
 	cargo build -vv
 
 package: build

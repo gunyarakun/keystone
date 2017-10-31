@@ -1,14 +1,13 @@
 #[cfg(feature = "use_system_keystone")]
 extern crate pkg_config;
 
-use std::fs;
 use std::env;
 use std::path::PathBuf;
 use std::process::Command;
 
 fn build_with_cmake() {
     let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
-    let cmake_dir = fs::canonicalize("keystone").unwrap();
+    let cmake_dir = PathBuf::from("keystone");
     let build_dir = cmake_dir.join("build");
 
     run(
@@ -20,7 +19,10 @@ fn build_with_cmake() {
 
     run(Command::new("cmake").current_dir(&build_dir).args(
         &[
-            &format!("-DCMAKE_INSTALL_PREFIX={}", out_dir.display()),
+            &format!(
+                "-DCMAKE_INSTALL_PREFIX={}",
+                out_dir.display()
+            ),
             "-DCMAKE_BUILD_TYPE=Release",
             "-DBUILD_LIBS_ONLY=1",
             "-DCMAKE_OSX_ARCHITECTURES=",
@@ -28,7 +30,7 @@ fn build_with_cmake() {
             "-DLLVM_TARGET_ARCH=host",
             "-G",
             "Unix Makefiles",
-            cmake_dir.to_str().unwrap(),
+            "..",
         ],
     ));
 
